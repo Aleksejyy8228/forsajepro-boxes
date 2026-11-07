@@ -1,0 +1,479 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FORSAJEPRO | BOXES</title>
+
+<style>
+
+*{box-sizing:border-box}
+
+body{
+
+ margin:0;background:#101114;color:white;
+
+ font-family:Arial,sans-serif;padding-bottom:85px
+
+}
+
+header{padding:24px 18px;background:#18191e}
+
+.logo{font-size:23px;font-weight:900;letter-spacing:1px}
+
+.logo span{color:#ed3939}
+
+.balance{color:#bbb;margin-top:12px}
+
+main{padding:18px}
+
+h2{font-size:21px}
+
+.case{
+
+ background:#202127;border:1px solid #33343c;
+
+ border-radius:16px;padding:17px;margin:14px 0;
+
+}
+
+.case h3{margin:0 0 8px}
+
+.case p{color:#aaa;font-size:13px}
+
+button{
+
+ background:#e33b3b;color:white;border:0;
+
+ border-radius:11px;padding:13px 17px;
+
+ font-weight:bold;font-size:14px;cursor:pointer
+
+}
+
+button:active{opacity:.75}
+
+.secondary{background:#34353c}
+
+nav{
+
+ position:fixed;bottom:0;left:0;width:100%;
+
+ display:flex;background:#191a20;
+
+ border-top:1px solid #34343a;
+
+ justify-content:space-around;padding:12px 3px;
+
+}
+
+nav button{
+
+ background:transparent;color:#aaa;
+
+ padding:8px 5px;font-size:12px
+
+}
+
+nav button.active{color:white}
+
+.car{
+
+ background:#22232a;padding:13px;
+
+ border-radius:12px;margin:10px 0;
+
+ display:flex;justify-content:space-between;gap:10px
+
+}
+
+.F{color:#aaa}.D{color:#65b7ff}
+
+.C{color:#b17aff}.B{color:#ffad43}
+
+.A{color:#ff4545}
+
+.hidden{display:none}
+
+#result{
+
+ background:#24252d;padding:25px;
+
+ border-radius:18px;text-align:center;
+
+ margin-top:20px
+
+}
+
+.big{font-size:48px}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+ <div class="logo">FORSAJEPRO <span>| BOXES</span></div>
+
+ <div class="balance">💰 Баланс: <b id="money">10000</b> монет</div>
+
+</header>
+
+<main>
+
+<section id="home">
+
+ <h2>Добро пожаловать!</h2>
+
+ <div class="case">
+
+  <h3>🏎️ Твой автомобильный мир</h3>
+
+  <p>Открывай кейсы, собирай редкие машины и пополняй гараж!</p>
+
+  <button onclick="show('cases')">Перейти к кейсам</button>
+
+ </div>
+
+ <h2>Последние автомобили</h2>
+
+ <div id="recent">Пока автомобилей нет</div>
+
+</section>
+
+<section id="cases" class="hidden">
+
+ <h2>🚘 Автомобильные кейсы</h2>
+
+ <div id="caseList"></div>
+
+ <div id="result" class="hidden"></div>
+
+</section>
+
+<section id="garage" class="hidden">
+
+ <h2>🏆 Мой гараж</h2>
+
+ <div id="garageList"></div>
+
+</section>
+
+<section id="shop" class="hidden">
+
+ <h2>🛒 Магазин</h2>
+
+ <div class="case">
+
+  <h3>Демонстрационный баланс</h3>
+
+  <p>Для тестирования можно пополнить игровые монеты.</p>
+
+  <button onclick="addMoney()">+ 1000 монет</button>
+
+ </div>
+
+ <p style="color:#888">Это тестовая валюта. Реальные платежи не подключены.</p>
+
+</section>
+
+<section id="profile" class="hidden">
+
+ <h2>👤 Профиль</h2>
+
+ <div class="case">
+
+  <h3>Игрок</h3>
+
+  <p>FORSAJEPRO | BOXES</p>
+
+  <p>Автомобилей: <b id="total">0</b></p>
+
+  <p>Открыто кейсов: <b id="opened">0</b></p>
+
+ </div>
+
+</section>
+
+</main>
+
+<nav>
+
+ <button class="active" onclick="show('home',this)">🏠<br>Главная</button>
+
+ <button onclick="show('cases',this)">📦<br>Кейсы</button>
+
+ <button onclick="show('garage',this)">🚗<br>Гараж</button>
+
+ <button onclick="show('shop',this)">🛒<br>Магазин</button>
+
+ <button onclick="show('profile',this)">👤<br>Профиль</button>
+
+</nav>
+
+<script>
+
+const cases = [
+
+{
+
+ name:"Ржавый кейс",cost:500,
+
+ cars:{
+
+ F:["ВАЗ-2101","ВАЗ-2105","ВАЗ-2106","ВАЗ-2107","LADA Granta","LADA Kalina","Toyota Corolla","Honda Civic"],
+
+ D:["Москвич-2140","ВАЗ-2109","ВАЗ-2110","LADA Samara","Nissan Almera"],
+
+ C:["УАЗ-469","ГАЗ-24 Волга","Mazda 3","Mitsubishi Lancer"],
+
+ B:[]
+
+ }
+
+},
+
+{
+
+ name:"Городской кейс",cost:1500,
+
+ cars:{
+
+ F:["Ford Focus","Honda Civic"],
+
+ D:["Chevrolet Cruze","Dodge Charger","Ford F-150","Jeep Wrangler","Honda Accord","Subaru Impreza"],
+
+ C:["Chevrolet Camaro","Dodge Challenger","Nissan Silvia S14","Toyota Supra A80"],
+
+ B:["Tesla Model S","Chevrolet Corvette C8","Cadillac Escalade","Nissan 350Z","Subaru WRX STI","Mazda RX-7 FD"]
+
+ }
+
+},
+
+{
+
+ name:"Умеренный кейс",cost:3000,
+
+ cars:{
+
+ C:["LADA Aura","LADA Iskra","Alfa Romeo Giulia","Alfa Romeo Stelvio","Maserati Ghibli","LADA Vesta Sport","Москвич 3","Fiat 500 Abarth"],
+
+ B:["Aurus Senat","Aurus Komendant","Ferrari California","Maserati GranTurismo","Alfa Romeo 4C","LADA Niva Travel"],
+
+ A:["Aurus Arsenal","Ferrari Roma","Maserati MC20","Ferrari Portofino"]
+
+ }
+
+},
+
+{
+
+ name:"Спорткар",cost:5000,
+
+ cars:{
+
+ C:["Ferrari 488 Pista","Ferrari F8 Tributo","Chevrolet Camaro ZL1 1LE","Ford Mustang Shelby GT500","Chevrolet Corvette ZR1","Dodge Viper ACR"],
+
+ B:["Ferrari SF90 Stradale","Lamborghini Huracán STO","Lamborghini Aventador SVJ","Maserati MC20 Cielo","Ford GT","Saleen S7"],
+
+ A:["Ferrari 812 Competizione","Lamborghini Revuelto","Hennessey Venom F5","SSC Tuatara"]
+
+ }
+
+},
+
+{
+
+ name:"Теневой кейс",cost:10000,
+
+ cars:{
+
+ A:["Bugatti Chiron","Bugatti Divo","Bugatti Bolide","Koenigsegg Jesko","Koenigsegg Regera","Pagani Huayra","Pagani Utopia","McLaren P1","McLaren Speedtail","Mercedes-AMG One","Ferrari LaFerrari","Lamborghini Sián"]
+
+ }
+
+}
+
+];
+
+let money=Number(localStorage.money||10000);
+
+let garage=JSON.parse(localStorage.garage||"[]");
+
+let opened=Number(localStorage.opened||0);
+
+function save(){
+
+ localStorage.money=money;
+
+ localStorage.garage=JSON.stringify(garage);
+
+ localStorage.opened=opened;
+
+ document.getElementById("money").textContent=money;
+
+ document.getElementById("total").textContent=garage.length;
+
+ document.getElementById("opened").textContent=opened;
+
+}
+
+function show(id,btn){
+
+ document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
+
+ document.getElementById(id).classList.remove("hidden");
+
+ document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+
+ if(btn)btn.classList.add("active");
+
+ if(id==="garage")renderGarage();
+
+ if(id==="cases")renderCases();
+
+ if(id==="home")renderRecent();
+
+}
+
+function renderCases(){
+
+ document.getElementById("caseList").innerHTML=cases.map((c,i)=>`
+
+ <div class="case">
+
+ <h3>${c.name}</h3>
+
+ <p>Стоимость: ${c.cost.toLocaleString("ru-RU")} монет</p>
+
+ <button onclick="openCase(${i})">Открыть кейс</button>
+
+ </div>`).join("");
+
+}
+
+function openCase(i){
+
+ const c=cases[i];
+
+ if(money<c.cost){alert("Недостаточно монет!");return;}
+
+ const available=Object.entries(c.cars)
+
+ .filter(([r,list])=>list.length>0);
+
+ const weights={F:60,D:25,C:12,B:3,A:1};
+
+ let pool=[];
+
+ available.forEach(([rarity,list])=>{
+
+  let weight=weights[rarity]||1;
+
+  list.forEach(car=>pool.push({car,rarity,weight}));
+
+ });
+
+ let total=pool.reduce((s,x)=>s+x.weight,0);
+
+ let random=Math.random()*total;
+
+ let win=pool[0];
+
+ for(const item of pool){
+
+  random-=item.weight;
+
+  if(random<=0){win=item;break;}
+
+ }
+
+ money-=c.cost;
+
+ opened++;
+
+ garage.push(win);
+
+ save();
+
+ const result=document.getElementById("result");
+
+ result.classList.remove("hidden");
+
+ result.innerHTML=`
+
+ <div class="big">🏎️</div>
+
+ <h2>ПОЗДРАВЛЯЕМ!</h2>
+
+ <h3>${win.car}</h3>
+
+ <h2 class="${win.rarity}">Редкость ${win.rarity}</h2>
+
+ <button onclick="document.getElementById('result').classList.add('hidden')">Забрать</button>`;
+
+ renderRecent();
+
+}
+
+function renderGarage(){
+
+ const el=document.getElementById("garageList");
+
+ if(!garage.length){el.innerHTML="<p>Гараж пока пуст.</p>";return;}
+
+ el.innerHTML=garage.map(x=>`
+
+ <div class="car">
+
+ <b>${x.car}</b>
+
+ <b class="${x.rarity}">${x.rarity}</b>
+
+ </div>`).join("");
+
+}
+
+function renderRecent(){
+
+ const el=document.getElementById("recent");
+
+ if(!garage.length){el.textContent="Пока автомобилей нет";return;}
+
+ el.innerHTML=garage.slice(-3).reverse().map(x=>
+
+ `<div class="car"><b>${x.car}</b><b class="${x.rarity}">${x.rarity}</b></div>`
+
+ ).join("");
+
+}
+
+function addMoney(){
+
+ money+=1000;save();
+
+ alert("Добавлено 1000 тестовых монет!");
+
+}
+
+save();
+
+renderCases();
+
+renderRecent();
+
+</script>
+
+</body>
+
+</html>
