@@ -1,479 +1,374 @@
-
-
 <!DOCTYPE html>
-
 <html lang="ru">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>FORSAJEPRO | BOXES</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#101116">
+<title>Forsajepro | boxes</title>
 <style>
-
 *{box-sizing:border-box}
-
-body{
-
- margin:0;background:#101114;color:white;
-
- font-family:Arial,sans-serif;padding-bottom:85px
-
-}
-
-header{padding:24px 18px;background:#18191e}
-
-.logo{font-size:23px;font-weight:900;letter-spacing:1px}
-
-.logo span{color:#ed3939}
-
-.balance{color:#bbb;margin-top:12px}
-
-main{padding:18px}
-
-h2{font-size:21px}
-
-.case{
-
- background:#202127;border:1px solid #33343c;
-
- border-radius:16px;padding:17px;margin:14px 0;
-
-}
-
-.case h3{margin:0 0 8px}
-
-.case p{color:#aaa;font-size:13px}
-
-button{
-
- background:#e33b3b;color:white;border:0;
-
- border-radius:11px;padding:13px 17px;
-
- font-weight:bold;font-size:14px;cursor:pointer
-
-}
-
-button:active{opacity:.75}
-
-.secondary{background:#34353c}
-
-nav{
-
- position:fixed;bottom:0;left:0;width:100%;
-
- display:flex;background:#191a20;
-
- border-top:1px solid #34343a;
-
- justify-content:space-around;padding:12px 3px;
-
-}
-
-nav button{
-
- background:transparent;color:#aaa;
-
- padding:8px 5px;font-size:12px
-
-}
-
-nav button.active{color:white}
-
-.car{
-
- background:#22232a;padding:13px;
-
- border-radius:12px;margin:10px 0;
-
- display:flex;justify-content:space-between;gap:10px
-
-}
-
-.F{color:#aaa}.D{color:#65b7ff}
-
-.C{color:#b17aff}.B{color:#ffad43}
-
-.A{color:#ff4545}
-
-.hidden{display:none}
-
-#result{
-
- background:#24252d;padding:25px;
-
- border-radius:18px;text-align:center;
-
- margin-top:20px
-
-}
-
-.big{font-size:48px}
-
+body{margin:0;background:#101116;color:#fff;font-family:Arial,sans-serif;padding-bottom:85px}
+button{border:0;border-radius:12px;padding:13px;background:#ff6b21;color:white;font-weight:bold;font-size:15px;cursor:pointer;touch-action:manipulation}
+button:disabled{opacity:.4}
+header{padding:20px 17px;background:#191a21;border-bottom:1px solid #30313b}
+header h2{margin:0;color:#ff7029}
+header small{color:#999}
+.balance{float:right;color:#ffd45a;font-weight:bold}
+main{padding:15px;max-width:650px;margin:auto}
+.screen{display:none}.screen.active{display:block}
+.panel{background:#1b1c24;border:1px solid #30313b;border-radius:17px;padding:16px;margin-bottom:13px}
+h3{margin:0 0 12px}
+.muted{color:#999;font-size:13px}
+.big{font-size:27px;font-weight:bold}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.car{background:#252630;border-radius:13px;padding:12px;margin-bottom:9px}
+.car strong{display:block;font-size:17px}
+.car small{color:#aaa}
+.price{color:#ffd45a;font-weight:bold}
+.tabs{position:fixed;bottom:0;left:0;right:0;background:#191a21;display:flex;justify-content:space-around;padding:9px 3px calc(9px + env(safe-area-inset-bottom));border-top:1px solid #333;z-index:10}
+.tabs button{background:transparent;color:#aaa;padding:7px 4px;font-size:11px;flex:1}
+.tabs button.active{color:#ff7029}
+.case{background:linear-gradient(135deg,#292b36,#171820);border:1px solid #41434f;border-radius:15px;padding:15px;margin-bottom:11px}
+.case button{width:100%;margin-top:10px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+input{width:100%;padding:12px;border-radius:10px;border:1px solid #444;background:#111;color:white;margin:8px 0}
+#map{height:330px;border-radius:15px;overflow:hidden;background:#344c37;position:relative}
+.map-label{position:absolute;font-weight:bold;text-shadow:0 2px 4px #000}
+.road{position:absolute;background:#777;border:5px solid #aaa;border-left:0;border-right:0;height:24px;transform:rotate(-20deg);width:120%;left:-10%;top:48%}
+.road.two{transform:rotate(35deg);top:30%;left:-20%}
+.river{position:absolute;background:#287ca0;width:120%;height:38px;top:70%;left:-10%;transform:rotate(-12deg);border-radius:50%}
+.forest{position:absolute;background:#23442b;border-radius:50%;width:85px;height:85px;box-shadow:35px 20px #2d5734,70px -8px #1e3d27,110px 30px #315c37}
+.point{position:absolute;background:#ff7029;border:3px solid white;border-radius:50%;width:17px;height:17px;z-index:2}
+.lights{display:flex;justify-content:center;gap:13px;margin:15px}
+.light{width:34px;height:34px;border-radius:50%;background:#444;border:3px solid #666}
+.light.red.on{background:#ff3434;box-shadow:0 0 15px red}
+.light.yellow.on{background:#ffd43b;box-shadow:0 0 15px orange}
+.light.green.on{background:#36e66b;box-shadow:0 0 15px lime}
+#gas{width:100%;height:105px;font-size:30px;letter-spacing:2px;background:linear-gradient(135deg,#ff7029,#d83e17);touch-action:manipulation;user-select:none;-webkit-user-select:none}
+#gas:active{transform:scale(.98);filter:brightness(1.2)}
+.progress{height:13px;background:#353640;border-radius:20px;overflow:hidden;margin:12px 0}
+#progressBar{height:100%;width:0;background:#39db75;transition:none}
+#raceStatus{text-align:center;font-weight:bold;font-size:18px;min-height:27px}
 </style>
-
 </head>
-
 <body>
-
 <header>
-
- <div class="logo">FORSAJEPRO <span>| BOXES</span></div>
-
- <div class="balance">💰 Баланс: <b id="money">10000</b> монет</div>
-
+ <span class="balance" id="money">0 ₽</span>
+ <h2>FORSAJEPRO</h2><small>BOXES • Автомобильная игра</small>
 </header>
 
 <main>
-
-<section id="home">
-
- <h2>Добро пожаловать!</h2>
-
- <div class="case">
-
-  <h3>🏎️ Твой автомобильный мир</h3>
-
-  <p>Открывай кейсы, собирай редкие машины и пополняй гараж!</p>
-
-  <button onclick="show('cases')">Перейти к кейсам</button>
-
+<section id="home" class="screen active">
+ <div class="panel">
+  <div class="muted">ТВОЙ БАЛАНС</div>
+  <div class="big" id="homeMoney">0 ₽</div>
+  <p class="muted">Открывай кейсы, собирай автомобили и участвуй в гонках.</p>
+  <button onclick="show('cases')">Открыть кейсы</button>
  </div>
-
- <h2>Последние автомобили</h2>
-
- <div id="recent">Пока автомобилей нет</div>
-
+ <div class="panel">
+  <h3>🚗 Твой гараж</h3>
+  <div id="homeCar">Пока нет автомобилей</div>
+  <button onclick="show('garage')">Перейти в гараж</button>
+ </div>
+ <div class="panel">
+  <h3>💼 Работа</h3>
+  <p class="muted">Получи деньги за выполненную работу.</p>
+  <button onclick="work()">Заработать 35 000 ₽</button>
+ </div>
 </section>
 
-<section id="cases" class="hidden">
-
- <h2>🚘 Автомобильные кейсы</h2>
-
+<section id="cases" class="screen">
+ <h3>🎁 Автомобильные кейсы</h3>
  <div id="caseList"></div>
-
- <div id="result" class="hidden"></div>
-
+ <div class="panel"><div id="caseResult">Выбирай кейс!</div></div>
 </section>
 
-<section id="garage" class="hidden">
-
- <h2>🏆 Мой гараж</h2>
-
- <div id="garageList"></div>
-
+<section id="garage" class="screen">
+ <h3>🚘 Мой гараж</h3>
+ <div class="panel" id="garageList">Гараж пустой.</div>
 </section>
 
-<section id="shop" class="hidden">
-
- <h2>🛒 Магазин</h2>
-
- <div class="case">
-
-  <h3>Демонстрационный баланс</h3>
-
-  <p>Для тестирования можно пополнить игровые монеты.</p>
-
-  <button onclick="addMoney()">+ 1000 монет</button>
-
+<section id="market" class="screen">
+ <h3>🏪 Рынок игроков</h3>
+ <div class="panel">
+  <h3>Выставить автомобиль</h3>
+  <select id="marketCar" style="width:100%;padding:12px;background:#111;color:white;border-radius:10px"></select>
+  <input id="marketPrice" type="number" placeholder="Цена автомобиля">
+  <button onclick="listCar()">Выставить на рынок</button>
  </div>
-
- <p style="color:#888">Это тестовая валюта. Реальные платежи не подключены.</p>
-
+ <div id="marketList"></div>
 </section>
 
-<section id="profile" class="hidden">
-
- <h2>👤 Профиль</h2>
-
- <div class="case">
-
-  <h3>Игрок</h3>
-
-  <p>FORSAJEPRO | BOXES</p>
-
-  <p>Автомобилей: <b id="total">0</b></p>
-
-  <p>Открыто кейсов: <b id="opened">0</b></p>
-
+<section id="mapScreen" class="screen">
+ <h3>🗺️ Карта мира</h3>
+ <div class="panel">
+  <div id="map">
+   <div class="forest" style="top:20px;left:15px"></div>
+   <div class="forest" style="top:175px;right:20px"></div>
+   <div class="river"></div>
+   <div class="road"></div><div class="road two"></div>
+   <span class="map-label" style="top:12px;right:15px">ЛЕС</span>
+   <span class="map-label" style="bottom:35px;left:20px">РЕКА</span>
+   <span class="map-label" style="top:47%;left:43%">ШОССЕ</span>
+   <div class="point" style="top:43%;left:48%"></div>
+   <div class="point" style="top:25%;left:72%"></div>
+   <div class="point" style="top:70%;left:22%"></div>
+  </div>
+  <p class="muted">На карте есть лес, река, дороги и точки заездов. Карта пока демонстрационная.</p>
  </div>
-
 </section>
 
+<section id="races" class="screen">
+ <h3>🏁 Гонки</h3>
+ <div class="panel">
+  <div class="row"><span>Топливо</span><b id="fuelText">6 / 6</b></div>
+  <div id="fuelBars" style="display:flex;gap:5px;margin:10px 0"></div>
+  <p class="muted">Одна единица топлива восстанавливается каждые 10 минут.</p>
+ </div>
+ <div class="panel">
+  <h3>Выбери заезд</h3>
+  <div class="grid">
+   <button onclick="startDrag('training')">Тренировка</button>
+   <button onclick="startDrag('easy')">Лёгкая</button>
+   <button onclick="startDrag('medium')">Средняя</button>
+   <button onclick="startDrag('hard')">Сложная</button>
+  </div>
+  <p class="muted" id="modeInfo">Сначала выбери режим.</p>
+ </div>
+ <div class="panel">
+  <h3>Светофор</h3>
+  <div class="lights">
+   <div class="light red" id="red"></div>
+   <div class="light yellow" id="yellow"></div>
+   <div class="light green" id="green"></div>
+  </div>
+  <div id="raceStatus">Выбери режим гонки</div>
+  <div class="row"><span>Нажатия</span><b id="clickCount">0 / 0</b></div>
+  <div class="progress"><div id="progressBar"></div></div>
+  <div class="row"><span>Время</span><b id="timeLeft">5.0 сек</b></div>
+  <button id="gas" disabled>ГАЗ</button>
+  <p class="muted">После зелёного нажимай кнопку как можно быстрее. Каждое нажатие засчитывается сразу!</p>
+ </div>
+</section>
+
+<section id="profile" class="screen">
+ <h3>👤 Профиль</h3>
+ <div class="panel">
+  <div class="big" id="profileMoney">0 ₽</div>
+  <p>Автомобилей: <b id="carCount">0</b></p>
+  <p>Побед в гонках: <b id="wins">0</b></p>
+ </div>
+</section>
 </main>
 
-<nav>
-
+<nav class="tabs">
  <button class="active" onclick="show('home',this)">🏠<br>Главная</button>
-
- <button onclick="show('cases',this)">📦<br>Кейсы</button>
-
+ <button onclick="show('cases',this)">🎁<br>Кейсы</button>
  <button onclick="show('garage',this)">🚗<br>Гараж</button>
-
- <button onclick="show('shop',this)">🛒<br>Магазин</button>
-
+ <button onclick="show('market',this)">🏪<br>Рынок</button>
+ <button onclick="show('mapScreen',this)">🗺️<br>Карта</button>
+ <button onclick="show('races',this)">🏁<br>Гонки</button>
  <button onclick="show('profile',this)">👤<br>Профиль</button>
-
 </nav>
 
 <script>
-
-const cases = [
-
-{
-
- name:"Ржавый кейс",cost:500,
-
- cars:{
-
- F:["ВАЗ-2101","ВАЗ-2105","ВАЗ-2106","ВАЗ-2107","LADA Granta","LADA Kalina","Toyota Corolla","Honda Civic"],
-
- D:["Москвич-2140","ВАЗ-2109","ВАЗ-2110","LADA Samara","Nissan Almera"],
-
- C:["УАЗ-469","ГАЗ-24 Волга","Mazda 3","Mitsubishi Lancer"],
-
- B:[]
-
- }
-
-},
-
-{
-
- name:"Городской кейс",cost:1500,
-
- cars:{
-
- F:["Ford Focus","Honda Civic"],
-
- D:["Chevrolet Cruze","Dodge Charger","Ford F-150","Jeep Wrangler","Honda Accord","Subaru Impreza"],
-
- C:["Chevrolet Camaro","Dodge Challenger","Nissan Silvia S14","Toyota Supra A80"],
-
- B:["Tesla Model S","Chevrolet Corvette C8","Cadillac Escalade","Nissan 350Z","Subaru WRX STI","Mazda RX-7 FD"]
-
- }
-
-},
-
-{
-
- name:"Умеренный кейс",cost:3000,
-
- cars:{
-
- C:["LADA Aura","LADA Iskra","Alfa Romeo Giulia","Alfa Romeo Stelvio","Maserati Ghibli","LADA Vesta Sport","Москвич 3","Fiat 500 Abarth"],
-
- B:["Aurus Senat","Aurus Komendant","Ferrari California","Maserati GranTurismo","Alfa Romeo 4C","LADA Niva Travel"],
-
- A:["Aurus Arsenal","Ferrari Roma","Maserati MC20","Ferrari Portofino"]
-
- }
-
-},
-
-{
-
- name:"Спорткар",cost:5000,
-
- cars:{
-
- C:["Ferrari 488 Pista","Ferrari F8 Tributo","Chevrolet Camaro ZL1 1LE","Ford Mustang Shelby GT500","Chevrolet Corvette ZR1","Dodge Viper ACR"],
-
- B:["Ferrari SF90 Stradale","Lamborghini Huracán STO","Lamborghini Aventador SVJ","Maserati MC20 Cielo","Ford GT","Saleen S7"],
-
- A:["Ferrari 812 Competizione","Lamborghini Revuelto","Hennessey Venom F5","SSC Tuatara"]
-
- }
-
-},
-
-{
-
- name:"Теневой кейс",cost:10000,
-
- cars:{
-
- A:["Bugatti Chiron","Bugatti Divo","Bugatti Bolide","Koenigsegg Jesko","Koenigsegg Regera","Pagani Huayra","Pagani Utopia","McLaren P1","McLaren Speedtail","Mercedes-AMG One","Ferrari LaFerrari","Lamborghini Sián"]
-
- }
-
-}
-
+const carsData = [
+ {name:"ВАЗ-2107",hp:75,r:"F",country:"Россия"},
+ {name:"ВАЗ-2114",hp:89,r:"F",country:"Россия"},
+ {name:"Lada Priora",hp:98,r:"D",country:"Россия"},
+ {name:"Toyota Corolla E100",hp:105,r:"D",country:"Япония"},
+ {name:"Nissan Sunny",hp:110,r:"D",country:"Япония"},
+ {name:"Toyota Mark II X90",hp:180,r:"C",country:"Япония"},
+ {name:"Honda Civic",hp:125,r:"F",country:"Япония"},
+ {name:"Ford Focus",hp:150,r:"D",country:"США"},
+ {name:"Mazda 3",hp:165,r:"D",country:"Япония"},
+ {name:"Toyota Camry",hp:180,r:"C",country:"Япония"},
+ {name:"Chevrolet Camaro",hp:220,r:"C",country:"США"},
+ {name:"Subaru WRX",hp:265,r:"B",country:"Япония"},
+ {name:"Lada Vesta Sport",hp:145,r:"C",country:"Россия"},
+ {name:"Alfa Romeo Giulia",hp:280,r:"B",country:"Италия"},
+ {name:"BMW M3",hp:431,r:"B",country:"Германия"},
+ {name:"Mercedes-AMG C63",hp:476,r:"A",country:"Германия"},
+ {name:"Aurus Senat",hp:598,r:"A",country:"Россия"},
+ {name:"Maserati Ghibli",hp:350,r:"A",country:"Италия"},
+ {name:"Nissan GT-R",hp:570,r:"B",country:"Япония"},
+ {name:"Porsche 911 Turbo",hp:580,r:"A",country:"Германия"},
+ {name:"Ferrari F8 Tributo",hp:720,r:"A",country:"Италия"},
+ {name:"Lamborghini Huracan",hp:640,r:"A",country:"Италия"},
+ {name:"Bugatti Chiron",hp:1500,r:"A",country:"Франция"},
+ {name:"Koenigsegg Jesko",hp:1600,r:"A",country:"Швеция"}
 ];
 
-let money=Number(localStorage.money||10000);
+const cases = [
+ {name:"Ржавый",price:50000,ids:[0,1,2,3,4,5]},
+ {name:"Городской",price:250000,ids:[6,7,8,9,10,11]},
+ {name:"Умеренный",price:1000000,ids:[12,13,14,15,16,17]},
+ {name:"Спорткар",price:5000000,ids:[18,19,20,21]},
+ {name:"Теневой",price:20000000,ids:[22,23]}
+];
 
-let garage=JSON.parse(localStorage.garage||"[]");
+let data=JSON.parse(localStorage.getItem("forsajepro_save")||"null")||{
+ money:100000,cars:[],fuel:6,fuelTime:Date.now(),wins:0,market:[]
+};
+let drag={phase:"idle",clicks:0,target:0,deadline:0,timer:null,sequence:[],mode:"training",reward:0,cost:0};
+let currentCase=0;
 
-let opened=Number(localStorage.opened||0);
-
-function save(){
-
- localStorage.money=money;
-
- localStorage.garage=JSON.stringify(garage);
-
- localStorage.opened=opened;
-
- document.getElementById("money").textContent=money;
-
- document.getElementById("total").textContent=garage.length;
-
- document.getElementById("opened").textContent=opened;
-
-}
-
+function save(){localStorage.setItem("forsajepro_save",JSON.stringify(data));update()}
+function money(n){return Math.floor(n).toLocaleString("ru-RU")+" ₽"}
 function show(id,btn){
-
- document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
-
- document.getElementById(id).classList.remove("hidden");
-
- document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
-
+ document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));
  if(btn)btn.classList.add("active");
-
- if(id==="garage")renderGarage();
-
- if(id==="cases")renderCases();
-
- if(id==="home")renderRecent();
-
+ update();
 }
-
+function update(){
+ ["money","homeMoney","profileMoney"].forEach(id=>document.getElementById(id).textContent=money(data.money));
+ document.getElementById("carCount").textContent=data.cars.length;
+ document.getElementById("wins").textContent=data.wins;
+ document.getElementById("homeCar").textContent=data.cars.length?data.cars[0].name+" • "+data.cars[0].hp+" л.с.":"Пока нет автомобилей";
+ renderGarage();renderMarket();renderFuel();
+}
+function work(){data.money+=35000;save();alert("Ты заработал 35 000 ₽!")}
 function renderCases(){
-
  document.getElementById("caseList").innerHTML=cases.map((c,i)=>`
-
- <div class="case">
-
- <h3>${c.name}</h3>
-
- <p>Стоимость: ${c.cost.toLocaleString("ru-RU")} монет</p>
-
- <button onclick="openCase(${i})">Открыть кейс</button>
-
- </div>`).join("");
-
+ <div class="case"><div class="row"><h3>${c.name}</h3><b class="price">${money(c.price)}</b></div>
+ <p class="muted">Автомобильный кейс</p><button onclick="openCase(${i})">Открыть кейс</button></div>`).join("");
 }
-
 function openCase(i){
-
- const c=cases[i];
-
- if(money<c.cost){alert("Недостаточно монет!");return;}
-
- const available=Object.entries(c.cars)
-
- .filter(([r,list])=>list.length>0);
-
- const weights={F:60,D:25,C:12,B:3,A:1};
-
- let pool=[];
-
- available.forEach(([rarity,list])=>{
-
-  let weight=weights[rarity]||1;
-
-  list.forEach(car=>pool.push({car,rarity,weight}));
-
- });
-
- let total=pool.reduce((s,x)=>s+x.weight,0);
-
- let random=Math.random()*total;
-
- let win=pool[0];
-
- for(const item of pool){
-
-  random-=item.weight;
-
-  if(random<=0){win=item;break;}
-
- }
-
- money-=c.cost;
-
- opened++;
-
- garage.push(win);
-
- save();
-
- const result=document.getElementById("result");
-
- result.classList.remove("hidden");
-
- result.innerHTML=`
-
- <div class="big">🏎️</div>
-
- <h2>ПОЗДРАВЛЯЕМ!</h2>
-
- <h3>${win.car}</h3>
-
- <h2 class="${win.rarity}">Редкость ${win.rarity}</h2>
-
- <button onclick="document.getElementById('result').classList.add('hidden')">Забрать</button>`;
-
- renderRecent();
-
+ let c=cases[i];
+ if(data.money<c.price){alert("Не хватает денег!");return}
+ data.money-=c.price;
+ let pool=c.ids.map(id=>carsData[id]);
+ let weights={F:60,D:25,C:12,B:3,A:1};
+ if(i<2)weights.A=0;
+ let total=pool.reduce((s,x)=>s+weights[x.r],0);
+ let roll=Math.random()*total,car=pool[0];
+ for(let x of pool){roll-=weights[x.r];if(roll<=0){car=x;break}}
+ let owned={...car,id:Date.now()+Math.random(),upgrade:0,fuel:6};
+ data.cars.push(owned);save();
+ document.getElementById("caseResult").innerHTML=`<h3>🎉 Выпала машина!</h3><div class="big">${car.name}</div><p>${car.hp} л.с. • Редкость ${car.r} • ${car.country}</p>`;
 }
-
 function renderGarage(){
-
- const el=document.getElementById("garageList");
-
- if(!garage.length){el.innerHTML="<p>Гараж пока пуст.</p>";return;}
-
- el.innerHTML=garage.map(x=>`
-
- <div class="car">
-
- <b>${x.car}</b>
-
- <b class="${x.rarity}">${x.rarity}</b>
-
- </div>`).join("");
-
+ let el=document.getElementById("garageList");
+ if(!data.cars.length){el.textContent="Гараж пустой.";return}
+ el.innerHTML=data.cars.map((c,i)=>`<div class="car">
+ <strong>${c.name}</strong><small>${c.country} • ${c.r} • ${c.hp+c.upgrade*10} л.с.</small>
+ <div class="row" style="margin-top:10px">
+ <button onclick="upgrade(${i})">Улучшить · 75 000 ₽</button>
+ <button onclick="sellCar(${i})" style="background:#555">Продать</button>
+ </div></div>`).join("");
+ document.getElementById("marketCar").innerHTML=data.cars.map((c,i)=>`<option value="${i}">${c.name}</option>`).join("");
 }
-
-function renderRecent(){
-
- const el=document.getElementById("recent");
-
- if(!garage.length){el.textContent="Пока автомобилей нет";return;}
-
- el.innerHTML=garage.slice(-3).reverse().map(x=>
-
- `<div class="car"><b>${x.car}</b><b class="${x.rarity}">${x.rarity}</b></div>`
-
- ).join("");
-
+function upgrade(i){
+ let c=data.cars[i];if(data.money<75000)return alert("Не хватает денег!");
+ if(c.upgrade>=10)return alert("Максимальный уровень!");
+ data.money-=75000;c.upgrade++;save();
 }
-
-function addMoney(){
-
- money+=1000;save();
-
- alert("Добавлено 1000 тестовых монет!");
-
+function sellCar(i){
+ let c=data.cars[i],prices={F:10000,D:30000,C:100000,B:350000,A:1500000};
+ if(!confirm("Продать "+c.name+" за "+money(prices[c.r])+"?"))return;
+ data.money+=prices[c.r];data.cars.splice(i,1);save();
 }
-
-save();
-
-renderCases();
-
-renderRecent();
-
+function listCar(){
+ let i=Number(document.getElementById("marketCar").value),price=Number(document.getElementById("marketPrice").value);
+ if(!data.cars[i]||price<=0)return alert("Выбери машину и укажи цену");
+ let c=data.cars.splice(i,1)[0];data.market.push({car:c,price,id:Date.now()});save();
+}
+function renderMarket(){
+ document.getElementById("marketList").innerHTML=data.market.length?data.market.map((x,i)=>`
+ <div class="car"><strong>${x.car.name}</strong><p>${x.car.hp} л.с.</p><b class="price">${money(x.price)}</b>
+ <button onclick="buyMarket(${i})">Купить</button></div>`).join(""):"<p class='muted'>На рынке пока нет автомобилей.</p>";
+}
+function buyMarket(i){
+ let x=data.market[i];if(data.money<x.price)return alert("Не хватает денег!");
+ data.money-=x.price;data.cars.push(x.car);data.market.splice(i,1);save();
+}
+function renderFuel(){
+ let now=Date.now(),elapsed=now-data.fuelTime;
+ let add=Math.floor(elapsed/600000);
+ if(add>0){data.fuel=Math.min(6,data.fuel+add);data.fuelTime=data.fuel>=6?now:data.fuelTime+add*600000;localStorage.setItem("forsajepro_save",JSON.stringify(data))}
+ document.getElementById("fuelText").textContent=data.fuel+" / 6";
+ document.getElementById("fuelBars").innerHTML=Array.from({length:6},(_,i)=>`<div style="height:12px;flex:1;border-radius:5px;background:${i<data.fuel?"#39db75":"#444"}"></div>`).join("");
+}
+function startDrag(mode){
+ if(drag.phase==="countdown"||drag.phase==="green")return;
+ if(!data.cars.length)return alert("Сначала получи автомобиль!");
+ let modes={
+  training:{target:15,reward:0,cost:0,time:5},
+  easy:{target:20,reward:60000,cost:1,time:5},
+  medium:{target:30,reward:120000,cost:2,time:5},
+  hard:{target:40,reward:220000,cost:3,time:5}
+ };
+ let m=modes[mode];
+ renderFuel();
+ if(data.fuel<m.cost)return alert("Не хватает топлива!");
+ data.fuel-=m.cost;
+ if(m.cost>0&&data.fuel<6)data.fuelTime=Date.now();
+ save();
+ drag={phase:"countdown",clicks:0,target:m.target,deadline:0,timer:null,mode,reward:m.reward,cost:m.cost};
+ document.getElementById("clickCount").textContent="0 / "+m.target;
+ document.getElementById("progressBar").style.width="0%";
+ document.getElementById("timeLeft").textContent="5.0 сек";
+ document.getElementById("raceStatus").textContent="Приготовься!";
+ document.getElementById("modeInfo").textContent="Цель: "+m.target+" нажатий за 5 секунд.";
+ document.getElementById("gas").disabled=false;
+ setLights("red");
+ // Газ доступен и до зелёного: раннее нажатие засчитывается как фальстарт.
+ setTimeout(()=>{
+  if(drag.phase!=="countdown")return;
+  setLights("yellow");document.getElementById("raceStatus").textContent="Внимание!";
+ },900);
+ setTimeout(()=>{
+  if(drag.phase!=="countdown")return;
+  setLights("green");drag.phase="green";
+  drag.deadline=Date.now()+5000;
+  document.getElementById("raceStatus").textContent="ЖМИ НА ГАЗ!";
+  drag.timer=setInterval(tickDrag,50);
+ },1500);
+}
+function setLights(which){
+ ["red","yellow","green"].forEach(id=>document.getElementById(id).classList.toggle("on",id===which));
+}
+function gasPress(){
+ if(drag.phase==="countdown"){
+  finishDrag(false,"ФАЛЬСТАРТ! Ты нажал до зелёного сигнала.");
+  data.money=Math.max(0,data.money-5000);save();return;
+ }
+ if(drag.phase!=="green")return;
+ // Каждое нажатие учитывается немедленно. Нет debounce, cooldown или лимита частоты.
+ drag.clicks++;
+ document.getElementById("clickCount").textContent=drag.clicks+" / "+drag.target;
+ document.getElementById("progressBar").style.width=Math.min(100,drag.clicks/drag.target*100)+"%";
+ if(drag.clicks>=drag.target)finishDrag(true,"ПОБЕДА! Отличный старт!");
+}
+function tickDrag(){
+ if(drag.phase!=="green")return;
+ let left=Math.max(0,drag.deadline-Date.now());
+ document.getElementById("timeLeft").textContent=(left/1000).toFixed(1)+" сек";
+ if(left<=0)finishDrag(false,"ВРЕМЯ ВЫШЛО! Не хватило нажатий.");
+}
+function finishDrag(win,message){
+ if(drag.phase==="finished"||drag.phase==="idle")return;
+ drag.phase="finished";
+ clearInterval(drag.timer);
+ document.getElementById("gas").disabled=true;
+ setLights(win?"green":"red");
+ document.getElementById("raceStatus").textContent=message;
+ if(win){
+  data.money+=drag.reward;data.wins++;
+  document.getElementById("raceStatus").textContent+=" Награда: "+money(drag.reward);
+ }else{
+  document.getElementById("timeLeft").textContent="0.0 сек";
+ }
+ save();
+}
+document.getElementById("gas").addEventListener("pointerdown",function(e){
+ e.preventDefault();gasPress();
+},{passive:false});
+renderCases();update();
+setInterval(renderFuel,1000);
+if(window.Telegram&&window.Telegram.WebApp){Telegram.WebApp.ready();Telegram.WebApp.expand()}
 </script>
-
 </body>
-
 </html>
